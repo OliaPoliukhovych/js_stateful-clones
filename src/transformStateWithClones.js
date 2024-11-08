@@ -47,7 +47,9 @@ function transformStateWithClones(state, actions) {
   for (const i of actions) {
     switch (i.type) {
       case 'addProperties':
-        Object.assign(cloneState, i.extraData);
+        if (typeof i.extraData === 'object') {
+          Object.assign(cloneState, i.extraData);
+        }
         result.push({ ...cloneState });
         break;
 
@@ -62,6 +64,9 @@ function transformStateWithClones(state, actions) {
         cloneState = {};
         result.push({ ...cloneState });
         break;
+
+      default:
+        return 'Unknown action type';
     }
   }
 
